@@ -7,6 +7,7 @@ mkdir /.quarantine
 mv "$repo_root/scripts/linux/Gemini/core.sh" /etc/gemini/core
 chmod +x /etc/gemini/core
 mv "$repo_root/scripts/linux/Gemini/gemini.service" /etc/systemd/system/gemini.service
+mv "$repo_root/scripts/linux/Gemini/gemini.conf" /etc/gemini/gemini.conf
 systemctl daemon-reload
 if [[ -d /var/www/ ]]; then
 	echo "Webserver detected, installing Titan Web-Guard."

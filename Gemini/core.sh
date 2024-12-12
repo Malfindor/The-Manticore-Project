@@ -52,11 +52,31 @@ findFiles()
 sendLog()
 {
 	newLog="[ $machineName ] - $log"
-	echo $newLog | nc 172.20.241.20 1973
+	echo $newLog | nc $logServer $logPort
 	sleep 0.1
+}
+processConfFile()
+{
+	mapfile -t confList < "/etc/gemini/gemini.conf"
+	for line in "${confList[@]}"; do
+		if ! [[ "${line:0:1}" == "#" ]]; then
+			IFS="=" read -ra lineSplit <<< "$line"
+			case "${lineSplit[0]}" in
+				"remote_logging_server")
+					logServer="${lineSplit[1]}"
+					;;
+				"remote_logging_port")
+					logPort="${lineSplit[1]}"
+					;;
+				*)
+					;;
+			esac
+		fi
+	done
 }
 getFileContAsStr /etc/gemini/machine.name machineName
 while true; do
+processConfFile
 #Checking for unknown users
 getFileContAsArray "/etc/passwd" passwdConts
 for line in "${passwdConts[@]}"; do
