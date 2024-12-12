@@ -3,7 +3,7 @@ lowerLetters=("a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q
 upperLetters=("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z")
 numbers=("0" "1" "2" "3" "4" "5" "6" "7" "8" "9")
 
-whitelistUsers=("root" "sysadmin" "sshd" "sync" "_apt" "nobody")
+whitelistUsers=()
 suspiciousFileNames=("shell.php" "template.php")
 suspiciousServices=("minecraft" "discord" "snapchat" "systemb")
 revShellFlags=("import pty" "pty.spawn")
@@ -67,6 +67,14 @@ processConfFile()
 					;;
 				"remote_logging_port")
 					logPort="${lineSplit[1]}"
+					;;
+				"user_whitelist")
+					whitelist="${lineSplit[1]}"
+					rawWhitelist = "${whitelist:1:-1}"
+					IFS="," read -ra whiteSplit <<< "$rawWhitelist"
+					for entry in "${whiteSplit[@]}"; do
+						whitelistUsers+=("$entry")
+					done
 					;;
 				*)
 					;;
