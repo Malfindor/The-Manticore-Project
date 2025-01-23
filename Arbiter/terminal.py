@@ -70,7 +70,7 @@ def printFilters():
     print(message[:len(message)-2])
 def printHelp():
     print("""
-Controler for Gemini EDR System:
+Arbiter SIM Information:
 
     Commands:
         
