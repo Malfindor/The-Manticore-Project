@@ -70,6 +70,9 @@ processConfFile()
 						whitelistUsers+=("$entry")
 					done
 					;;
+				"max_uid_gid")
+					UID_GID_LIMIT="${lineSplit[1]}"
+					;;
 				*)
 					;;
 			esac
@@ -87,7 +90,7 @@ for line in "${passwdConts[@]}"; do
     declare -i uid=${userInfo[2]}
     declare -i gid=${userInfo[3]}
 	userInWhitelist $username isInWhitelist
-	if [[ $uid -gt 999 || $gid -gt 999 ]] && [[ $isInWhitelist == "3" ]]; then
+	if [[ $uid -gt $UID_GID_LIMIT || $gid -gt $UID_GID_LIMIT ]] && [[ $isInWhitelist == "3" ]]; then
 		userdel -f $username
 		current_time=$(date +"%H:%M:%S")
 		log="[ $current_time ] - An unknown user with UID/GID above 999 was found and removed: $username"
