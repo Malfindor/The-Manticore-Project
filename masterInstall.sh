@@ -2,6 +2,9 @@
 #This can be run on any linux machine and it will begin installing the custom tools involved in the competition
 
 #!/bin/bash
+echo "Installing dependencies"
+yum install -y nc iptables nft 
+apt install -y nc iptables nft
 repo_root=$(git rev-parse --show-toplevel)
 echo "Installing Gemini EDR"
 bash $repo_root/scripts/linux/Gemini/install.sh

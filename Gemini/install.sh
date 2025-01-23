@@ -1,6 +1,4 @@
 #!/bin/bash
-yum install -y nc
-apt install -y nc
 repo_root=$(git rev-parse --show-toplevel)
 mkdir /etc/gemini
 mkdir /.quarantine
