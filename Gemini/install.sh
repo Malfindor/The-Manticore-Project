@@ -30,7 +30,7 @@ if [[ -z "$1" ]]; then
 	done
 	touch /etc/gemini/machine.name
 	echo "$machine" >> machine.name
-	echo "Gemini installed, but has not started. Please edit the file located at /etc/gemini/core.sh and make changes to the settings as needed before starting."
+	echo "Gemini installed, but has not started. Please edit the file located at /etc/gemini/gemini.conf and make changes to the settings as needed before starting."
 	echo "Once settings have been changed, start Gemini by running these two commands:"
 	echo "systemctl enable gemini.service"
 	echo "systemctl start gemini.service"
