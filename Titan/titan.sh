@@ -1,7 +1,7 @@
 #!/bin/bash
 TMP_FILE="/tmp/dir_busting.tmp"
 PATTERN="404|DirBuster|Gobuster"
-
+suspiciousFileNames=("shell.php" "template.php")
 touch "$TMP_FILE"
 getFileContAsStr()
 {
@@ -29,6 +29,14 @@ processConfFile()
 		fi
 	done
 }
+findFiles() 
+{
+    local origin="$1"
+    fileList=()
+    while IFS= read -r file; do
+        fileList+=("$file")
+    done < <(find "$origin" -type f)
+}
 getFileContAsStr /etc/gemini/machine.name machineName
 processConfFile
 while true; do
@@ -46,5 +54,16 @@ while true; do
 
     echo "$NEW_ENTRIES" >> "$TMP_FILE"
 
+	findFiles "/var/www/"
+	for file in "${fileList[@]}"; do
+		for suspiciousFile in "${suspiciousFileNames[@]}"; do
+			if [[ "$file" == "$suspiciousFile" ]]; then
+				mv $file "/.quarantine/$suspiciousFile"
+				current_time=$(date +"%H:%M:%S")
+				log="[ $current_time ] - A suspicious file was detected in '/var/www' and was quarintined: $suspiciousFile"
+				echo $log >> /var/log/gemini.log
+			fi
+		done
+	done
     sleep 5
 done

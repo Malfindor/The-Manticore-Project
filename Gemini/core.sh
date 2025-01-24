@@ -1,9 +1,7 @@
 #!/bin/bash
 whitelistUsers=()
-suspiciousFileNames=("shell.php" "template.php")
 suspiciousServices=()
 revShellFlags=()
-suspiciousFileNames=("shell.php" "template.php")
 getFileContAsArray() #usage: "getFileCont {file name} {array variable name}"
 {
 	local fileName="$1"
@@ -36,14 +34,6 @@ userInWhitelist()
     if [[ ! $result == "2" ]]; then
 		result="3"
 	fi
-}
-findFiles() 
-{
-    local origin="$1"
-    fileList=()
-    while IFS= read -r file; do
-        fileList+=("$file")
-    done < <(find "$origin" -type f)
 }
 processConfFile()
 {
@@ -172,18 +162,6 @@ for login in "${loginList[@]}"; do
 			echo $log >> /var/log/gemini.log
 		fi
 	fi
-done
-#Checking for suspicious files in a webserver
-findFiles "/var/www/"
-for file in "${fileList[@]}"; do
-	for suspiciousFile in "${suspiciousFileNames[@]}"; do
-		if [[ "$file" == "$suspiciousFile" ]]; then
-			mv $file "/.quarantine/$suspiciousFile"
-			current_time=$(date +"%H:%M:%S")
-			log="[ $current_time ] - A suspicious file was detected in '/var/www' and was quarintined: $suspiciousFile"
-			echo $log >> /var/log/gemini.log
-		fi
-	done
 done
 sleep 30
 done
