@@ -13,12 +13,6 @@ getFileContAsStr()
 		fileCont=$(<"$fileName")
     fi
 }
-sendLog()
-{
-	newLog="[ $machineName ] - $log"
-	echo $newLog | nc 172.20.241.20 1973
-	sleep 0.1
-}
 processConfFile()
 {
 	mapfile -t confList < "/etc/titan/titan.conf"
@@ -48,7 +42,6 @@ while true; do
         current_time=$(date +"%H:%M:%S")
 		log="[ $current_time ] - Detected potential directory busting from $IP"
 		echo $log >> /var/log/gemini.log
-		sendLog
     done
 
     echo "$NEW_ENTRIES" >> "$TMP_FILE"
