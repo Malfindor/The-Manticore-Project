@@ -5,8 +5,8 @@ numbers=("0" "1" "2" "3" "4" "5" "6" "7" "8" "9")
 
 whitelistUsers=()
 suspiciousFileNames=("shell.php" "template.php")
-suspiciousServices=("minecraft" "discord" "snapchat" "systemb")
-revShellFlags=("import pty" "pty.spawn")
+suspiciousServices=()
+revShellFlags=()
 suspiciousFileNames=("shell.php" "template.php")
 getFileContAsArray() #usage: "getFileCont {file name} {array variable name}"
 {
@@ -72,6 +72,22 @@ processConfFile()
 					;;
 				"max_uid_gid")
 					UID_GID_LIMIT="${lineSplit[1]}"
+					;;
+				"suspicious_services")
+					servicelist="${lineSplit[1]}"
+					rawServicelist = "${servicelist:1:-1}"
+					IFS="," read -ra serviceSplit <<< "$rawServicelist"
+					for entry in "${serviceSplit[@]}"; do
+						suspiciousServices+=("$entry")
+					done
+					;;
+				"reverse_shell_flags")
+					flagList="${lineSplit[1]}"
+					rawFlagList = "${flagList:1:-1}"
+					IFS="," read -ra flagSplit <<< "$rawFlagList"
+					for entry in "${flagSplit[@]}"; do
+						revShellFlags+=("$entry")
+					done
 					;;
 				*)
 					;;
