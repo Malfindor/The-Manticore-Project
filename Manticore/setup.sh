@@ -146,10 +146,12 @@ EOFA
 #echo "Setting up Debian listener..."
 #python3 /etc/manticore/netListenerSetup.py "172.20.240.20"
 #echo "Setting up Ubuntu listener..."
-echo "Installing Gemini Server..."
-bash $repo_root/scripts/linux/Gemini/install.sh "-s"
+echo "Installing Gemini EDR..."
+bash $repo_root/scripts/linux/Gemini/install.sh
 mv $repo_root/scripts/linux/Gemini/terminal.py /bin/gemini
 chmod +x /bin/gemini
+echo "Installing Arbiter SIM..."
+bash $repo_root/scripts/linux/Arbiter/install.sh
 echo "Setting up firewall..."
 mv $repo_root/scripts/linux/nfTablesFirewall/firewall.py /bin/firewall
 chmod +x /bin/firewall
