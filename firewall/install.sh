@@ -15,11 +15,13 @@ if [[ -f /bin/nft || -f /sbin/nft ]]; then
 		if (( $(echo "$numVersion < 0.5" | bc -l) )); then
 			echo "This machine is unable to support nftables version 0.5 or higher. Installing firewall using iptables."
 			#IPTABLES FIREWALL INSTALL
+			exit
 		fi
 	fi
 else
 	echo "This machine is unable to support nftables. Installing firewall using iptables."
 	#IPTABLES FIREWALL INSTALL
+	exit
 fi
 yum install -y python3
 apt install -y python3
@@ -32,11 +34,17 @@ if [[ -f /bin/python3 ]]; then
 	secondNum=$((${versionSplit[1]}))
 	if [[ $firstNum -lt 3 ]]; then
 		echo "This machine is unable to support python3. Installing firewall using iptables."
+		#IPTABLES FIREWALL INSTALL
+		exit
 	elif [[ $secondNum -lt 8 ]]; then
 		echo "This machine is unable to support python 3.8. Installing firewall using iptables."
+		#IPTABLES FIREWALL INSTALL
+		exit
 	fi
 else
 	echo "This machine is unable to support python3. Installing firewall using iptables."
+	#IPTABLES FIREWALL INSTALL
+	exit
 fi
 echo "This machine passes all dependency checks. Installing firewaill using nftables."
 repo_root=$(git rev-parse --show-toplevel)
