@@ -3,31 +3,40 @@ if [ $EUID -ne 0 ]; then
     echo "Must be run as root"
 	exit
 fi
-yum install -y nft
-apt install -y nft
-if [[ -f /bin/nft ]]; then
-	version=$(nft --version)
-	numVersion=$(echo "$version" | bc)
-	if (( $(echo "$numVersion < 0.5" | bc -l) )); then
-		echo "This machine is unable to support nftables version 0.5 or higher. Installing firewall using iptables."
-		#IPTABLES FIREWALL INSTALL
+yum install -y nftables
+apt install -y nftables
+if [[ -f /bin/nft || -f /sbin/nft ]]; then
+	rawVersion=$(nft --version)
+	IFS=" " read -ra versionSplit <<< "$rawVersion"
+	version="${versionSplit[1]}"
+	version="${version:1}"
+	if ! [[ "${version:0:1}" == "1" ]]; then
+		numVersion=$(echo "$version" | bc)
+		if (( $(echo "$numVersion < 0.5" | bc -l) )); then
+			echo "This machine is unable to support nftables version 0.5 or higher. Installing firewall using iptables."
+			#IPTABLES FIREWALL INSTALL
+		fi
 	fi
 else
 	echo "This machine is unable to support nftables. Installing firewall using iptables."
 	#IPTABLES FIREWALL INSTALL
 fi
-yum install -y python
-apt install -y python
+yum install -y python3
+apt install -y python3
 if [[ -f /bin/python3 ]]; then
-	version=$(python3 -version)
-	numVersion=$(echo "$version" | bc)
-	if (( $(echo "$numVersion < 3.8" | bc -l) )); then
-		echo "This machine is unable to support python 3.8 or higher. Installing firewall using iptables."
-		#IPTABLES FIREWALL INSTALL
+	rawVersion=$(python3 -V)
+	IFS=" " read -ra versionSplit <<< "$rawVersion"
+	version="${versionSplit[1]}"
+	IFS="." read -ra versionSplit <<< "$version"
+	firstNum=$((${versionSplit[0]}))
+	secondNum=$((${versionSplit[1]}))
+	if [[ $firstNum -lt 3 ]]; then
+		echo "This machine is unable to support python3. Installing firewall using iptables."
+	elif [[ $secondNum -lt 8 ]]; then
+		echo "This machine is unable to support python 3.8. Installing firewall using iptables."
 	fi
 else
-	echo "This machine is unable to support python 3. Installing firewall using iptables."
-	#IPTABLES FIREWALL INSTALL
+	echo "This machine is unable to support python3. Installing firewall using iptables."
 fi
 echo "This machine passes all dependency checks. Installing firewaill using nftables."
 repo_root=$(git rev-parse --show-toplevel)
