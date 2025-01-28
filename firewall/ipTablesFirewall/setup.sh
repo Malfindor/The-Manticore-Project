@@ -8,7 +8,7 @@ while [ "$isValid" == "false" ]; do
 	echo "Enter machine name(centos/ecom, fedora, ubuntu, debian, splunk): "
 	read machine
 	for name in "${validNames[@]}"; do
-		if [[ "$name" == "machine" ]]; then
+		if [[ "$name" -eq "machine" ]]; then
 			isValid="true"
 		fi
 	done
