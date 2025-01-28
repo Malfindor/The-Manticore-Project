@@ -32,11 +32,11 @@ getChainList() #Usage: getChainList {chain} {variable name to save array to} -> 
 	local chainName="$1"
 	local isValid="false"
 	for chain in "${validChains[@]}"; do
-		if [[ "$chainName" -eq "$chain" ]]; then
+		if [[ "$chainName" == "$chain" ]]; then
 			isValid="true"
 		fi
 	done
-	if [[ "isValid" -eq "false" ]]; then
+	if [[ "isValid" == "false" ]]; then
 		echo "Invalid chain entry"
 		exit
 	fi
@@ -69,18 +69,18 @@ getChainList() #Usage: getChainList {chain} {variable name to save array to} -> 
 	IFS="\n" read -ra fullChainListSplit <<< "$fullChainList"
 	local num=$((0))
 	local currentLine=""
-	while [ $num -lt ${#fullChainListSplit[@]} ]; do
+	while [ "$num" -lt "${#fullChainListSplit[@]}" ]; do
 		currentLine="${fullChainListSplit[$num]}"
 		if ! [[ ${#currentLine} -eq 0 ]]; then
 			IFS=" " read -ra currentLineSplit <<< "$currentLine"
-			if [[ "${currentLineSplit[0]}" -eq "Chain" ]] && [[ "${currentLineSplit[1]}" -eq "$chainName" ]]; then
+			if [[ "${currentLineSplit[0]}" == "Chain" ]] && [[ "${currentLineSplit[1]}" == "$chainName" ]]; then
 				targetChainStartIndex=$num
 			fi
 		fi
 		((num=$num+1))
 	done
-	num=(($targetChainStartIndex+1))
-	while [ $num -lt ${#fullChainListSplit[@]} ]; do
+	num=$(($targetChainStartIndex+1))
+	while [ "$num" -lt "${#fullChainListSplit[@]}" ]; do
 		currentLine="${fullChainListSplit[$num]}"
 		if ! [[ ${#currentLine} -eq 0 ]]; then
 			IFS=" " read -ra currentLineSplit <<< "$currentLine"
@@ -102,6 +102,7 @@ getChainList() #Usage: getChainList {chain} {variable name to save array to} -> 
 		if ! [[ ${#currentLine} -eq 0 ]]; then
 			returnArray+=("$currentLine")
 		fi
+		((num=$num+1))
 	done
 	echo ""
 	exit
