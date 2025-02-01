@@ -159,7 +159,7 @@ echo "Defaults env_keep += \"SSH_CONNECTION SSH_CLIENT SSH_TTY\"" >> /etc/sudoer
 python3 $repo_root/scripts/linux/nfTablesFirewall/setup.py "splunk"
 #echo "Beginning remote setup..."
 #manticore -i
-manticore -gi
+#manticore -gi
 echo "Beginning GUI setup..."
 yum update -y
 yum groupinstall -y "Server with GUI"
