@@ -13,7 +13,7 @@ echo "NOT IMPLEMENTED" #when manticore is stable on old linux versions, execute 
 echo "Installing Arbiter Log Forwarder"
 echo "NOT IMPLEMENTED" #when arbiter is functional, install the log forwarder
 echo "Installing Inferno Firewall"
-echo "NOT IMPLEMENTED" #when inferno has working ipTables version, install it
+bash $repo_root/scripts/linux/firewall/install.sh
 echo "Installation complete."
 echo "Don't forget to edit the file located at /etc/Gemini/gemini.conf before starting Gemini."
 echo "It can brick your service if you don't"
