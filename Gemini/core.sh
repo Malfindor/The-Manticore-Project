@@ -50,7 +50,7 @@ processConfFile()
 					;;
 				"user_whitelist")
 					whitelist="${lineSplit[1]}"
-					rawWhitelist = "${whitelist:1:-1}"
+					rawWhitelist="${whitelist:1:-1}"
 					IFS="," read -ra whiteSplit <<< "$rawWhitelist"
 					for entry in "${whiteSplit[@]}"; do
 						whitelistUsers+=("$entry")
@@ -61,7 +61,7 @@ processConfFile()
 					;;
 				"suspicious_services")
 					servicelist="${lineSplit[1]}"
-					rawServicelist = "${servicelist:1:-1}"
+					rawServicelist="${servicelist:1:-1}"
 					IFS="," read -ra serviceSplit <<< "$rawServicelist"
 					for entry in "${serviceSplit[@]}"; do
 						suspiciousServices+=("$entry")
@@ -69,7 +69,7 @@ processConfFile()
 					;;
 				"reverse_shell_flags")
 					flagList="${lineSplit[1]}"
-					rawFlagList = "${flagList:1:-1}"
+					rawFlagList="${flagList:1:-1}"
 					IFS="," read -ra flagSplit <<< "$rawFlagList"
 					for entry in "${flagSplit[@]}"; do
 						revShellFlags+=("$entry")
