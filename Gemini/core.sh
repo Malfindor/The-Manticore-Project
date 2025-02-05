@@ -95,7 +95,7 @@ for line in "${passwdConts[@]}"; do
 	if [[ $uid -gt $UID_GID_LIMIT || $gid -gt $UID_GID_LIMIT ]] && [[ $isInWhitelist == "3" ]]; then
 		userdel -f $username
 		current_time=$(date +"%H:%M:%S")
-		log="[ $current_time ] - An unknown user with UID/GID above 999 was found and removed: $username"
+		log="[ $current_time ] - An unknown user with UID/GID above $UID_GID_LIMIT was found and removed: $username"
 		echo $log >> /var/log/gemini.log
 	fi
 isInWhitelist=""
