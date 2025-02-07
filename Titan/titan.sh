@@ -57,7 +57,7 @@ while true; do
 	findFiles "/var/www/"
 	for file in "${fileList[@]}"; do
 		for suspiciousFile in "${suspiciousFileNames[@]}"; do
-			if [[ "$file" == "$suspiciousFile" ]]; then
+			if [[ "$file" == *"$suspiciousFile"* ]]; then
 				mv $file "/.quarantine/$suspiciousFile"
 				current_time=$(date +"%H:%M:%S")
 				log="[ $current_time ] - A suspicious file was detected in '/var/www' and was quarintined: $suspiciousFile"
