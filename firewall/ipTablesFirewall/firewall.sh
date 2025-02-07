@@ -80,12 +80,13 @@ getChainList() #Usage: getChainList {chain} {variable name to save array to} -> 
 		((num=$num+1))
 	done
 	num=$(($targetChainStartIndex+1))
+	local targetChainEndIndex=$((0))
 	while [ "$num" -lt "${#fullChainListSplit[@]}" ]; do
 		currentLine="${fullChainListSplit[$num]}"
 		if ! [[ ${#currentLine} -eq 0 ]]; then
 			IFS=" " read -ra currentLineSplit <<< "$currentLine"
-			if [[ "${currentLineSplit[0]}" -eq "Chain" ]]; then
-				local targetChainEndIndex=$(($num-1))
+			if [[ "${currentLineSplit[0]}" -eq "Chain" ]] && [[ $targetChainEndIndex -eq 0 ]]; then
+				targetChainEndIndex=$(($num-1))
 			fi
 		fi
 		((num=$num+1))
@@ -107,4 +108,45 @@ getChainList() #Usage: getChainList {chain} {variable name to save array to} -> 
 		fi
 		((num=$num+1))
 	done
+}
+getPortTranslationTCP() #Usage: getPortTranslationTCP {port} {variable to save to}         ||| This function will convert TCP ports from default protocol name -> port number, or port number -> default protocol name
+{
+	local input="$1"
+	local -n returnString="$2"
+	returnString=""
+	
+	case "$input" in
+	"http")
+		returnString="80"
+	;;
+	"https")
+		returnString="443"
+	;;
+	"domain")
+		returnString="53"
+	;;
+	"elad")
+		returnString="1893"
+	;;
+	"dlsrap")
+		returnString="1973"
+	;;
+	"smtp")
+		returnString="25"
+	;;
+	"pop3")
+		returnString="110"
+	;;
+	"irdmi")
+		returnString="8000"
+	;;
+	"webcache")
+		returnString="8080"
+	;;	
+	"8089")
+		returnString="8089"
+	;;
+	*)	
+	;;
+	esac
 }
