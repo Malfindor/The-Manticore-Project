@@ -1,5 +1,4 @@
 #!/bin/bash
-# NOTE: Manticore port shows as "elad", Arbiter port shows as "dslrap"
 if [ $EUID -ne 0 ]; then
     echo "Must be run as root"
 	exit
@@ -150,16 +149,16 @@ getPortTranslationTCP() #Usage: getPortTranslationTCP {port} {variable to save t
 	;;
 	esac
 }
-verifyIntegrity() #Usage: verifyIntegrity {variable to save true/false to}
+verifyIntegrity() #Usage: verifyIntegrity
 {
-	
+	VERIFIED=$false
 }
 if [[ -z "$1" ]]; then
 	mainCont="true"
 	while [ "$mainCont" -eq "true" ]; do
-		verifyIntegrity verified
+		verifyIntegrity
 		clear
-		if [[ "$verified" -eq "false" ]]; then
+		if ! $VERIFIED; then
 			echo "Firewall Status: \033[31;1m[INACTIVE]\033[0m"
 			echo "\033[33;1m[Terminating to avoid crashes due to missing structure. Run firewall with the '-i' flag to verify integrity.]\033[0m"
 			exit
@@ -172,4 +171,26 @@ if [[ -z "$1" ]]; then
 		
 
 	done
+else
+	case "$1" in
+	"-ba")
+		if [[ -z "$2" ]]; then
+			echo "No IP provided to blacklist."
+			exit
+		else
+			ip="$2"
+			addToBlacklist "$ip"
+		fi
+	;;
+	"-br")
+		if [[ -z "$2" ]]; then
+			echo "No IP provided to remove."
+			exit
+		else
+		fi
+	;;
+	*)
+		echo "Unknown argument."
+		exit
+	;;
 fi
