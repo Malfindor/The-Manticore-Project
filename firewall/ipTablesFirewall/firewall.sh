@@ -3,6 +3,8 @@ if [ $EUID -ne 0 ]; then
     echo "Must be run as root"
 	exit
 fi
+BLACKLIST_SIGNATURE=("DROP" "all" "--" "source" "destination")
+WHITELIST_SIGNATURE=("ACCEPT" "all" "--" "source" "destination")
 addToBlacklist() #Usage: addToBlacklist {ip}
 {
 	local blacklistIP="$1"
@@ -10,9 +12,36 @@ addToBlacklist() #Usage: addToBlacklist {ip}
 	iptables -A INPUT -s $blacklistIP -j DROP
 	iptables -A OUTPUT -d $blacklistIP -j DROP
 }
-removeFromBlacklist() #Usage: removeFromBlacklist {ip} NOT DONE
+removeFromBlacklist() #Usage: removeFromBlacklist {ip}
 {
 	local blacklistIP="$1"
+	getChainList input inputInfo
+	getChainList output outputInfo
+	local inputNum=$((-1))
+	local outputNum=$((-1))
+	
+	for entry in "${inputInfo[@]}"; do
+		IFS=" " read -ra entrySplit <<< "$entry"
+		
+		if [[ "${entrySplit[1]}" -eq "${BLACKLIST_SIGNATURE[1]}" ]] && [[ "${entrySplit[2]}" -eq "${BLACKLIST_SIGNATURE[2]}" ]] && [[ "${entrySplit[3]}" -eq "${BLACKLIST_SIGNATURE[3]}" ]] && [[ "${entrySplit[5]}" -eq "${BLACKLIST_SIGNATURE[5]}" ]] && [[ "${entrySplit[4]}" -eq "$blacklistIP" ]]; then
+			inputNum=$((${entrySplit[0]}))
+		fi
+	done
+	
+	for entry in "${outputInfo[@]}"; do
+		IFS=" " read -ra entrySplit <<< "$entry"
+		
+		if [[ "${entrySplit[1]}" -eq "${BLACKLIST_SIGNATURE[1]}" ]] && [[ "${entrySplit[2]}" -eq "${BLACKLIST_SIGNATURE[2]}" ]] && [[ "${entrySplit[3]}" -eq "${BLACKLIST_SIGNATURE[3]}" ]] && [[ "${entrySplit[4]}" -eq "${BLACKLIST_SIGNATURE[4]}" ]] && [[ "${entrySplit[5]}" -eq "$blacklistIP" ]]; then
+			outputNum=$((${entrySplit[0]}))
+		fi
+	done
+	
+	if [[ $inputNum -gt 0 ]] && [[ $outputNum -gt 0 ]]; then
+		iptables -D INPUT $inputNum
+		iptables -D OUTPUT $outputNum
+	else
+		echo "Entered IP is not in the blacklist."
+	fi
 }
 addToWhitelist() #Usage: addToWhitelist {ip}
 {
