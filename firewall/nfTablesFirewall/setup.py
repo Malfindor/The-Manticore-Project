@@ -29,7 +29,7 @@ def install(machine):
     else:
         os.system('echo "default" > /etc/firewall/machinePreset.flag')
     if(machine == "splunk"):
-        requiredServicesTCP = ["53", "http", "https", "8000", "8089", "1893", "1973"]
+        requiredServicesTCP = ["53", "http", "https", "8000", "8089"]
         requiredServicesUDP = ["53", "123"]
         inOnlyServicesUDP = []
         outOnlyServicesUDP = []
@@ -37,7 +37,7 @@ def install(machine):
         inOnlyIPs = []
         outOnlyIPs = []
     elif(machine == "centos"):
-        requiredServicesTCP = ["53", "http", "https", "1893", "1973"]
+        requiredServicesTCP = ["53", "http", "https"]
         requiredServicesUDP = ["53", "123"]
         inOnlyServicesUDP = []
         outOnlyServicesUDP = []
@@ -45,7 +45,7 @@ def install(machine):
         inOnlyIPs = []
         outOnlyIPs = []
     elif(machine == "fedora"):
-        requiredServicesTCP = ["53", "http", "https", "25", "110", "1893", "1973"]
+        requiredServicesTCP = ["53", "http", "https", "25", "110"]
         requiredServicesUDP = ["53", "123"]
         inOnlyServicesUDP = []
         outOnlyServicesUDP = []

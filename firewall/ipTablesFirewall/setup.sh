@@ -16,27 +16,27 @@ requiredPortsUDP=()
 requiredIPs=("8.8.8.8" "8.8.4.4")
 case "$machine" in 
 	"centos")
-		requiredPortsTCP=("80" "443" "53" "1893" "1973")
+		requiredPortsTCP=("80" "443" "53")
 		requiredPortsUDP=("53" "123")
 		;;
 	"ecom")
-		requiredPortsTCP=("80" "443" "53" "1893" "1973")
+		requiredPortsTCP=("80" "443" "53")
 		requiredPortsUDP=("53" "123")
 		;;
 	"fedora")
-		requiredPortsTCP=("80" "443" "53" "1893" "1973" "25" "110")
+		requiredPortsTCP=("80" "443" "53" "25" "110")
 		requiredPortsUDP=("53" "123")
 		;;
 	"ubuntu")
-		requiredPortsTCP=("80" "443" "53" "1893" "1973")
+		requiredPortsTCP=("80" "443" "53")
 		requiredPortsUDP=("53" "123")
 		;;
 	"debian")
-		requiredPortsTCP=("80" "443" "53" "1893" "1973")
+		requiredPortsTCP=("80" "443" "53")
 		requiredPortsUDP=("53" "123")
 		;;
 	"splunk")
-		requiredPortsTCP=("80" "443" "53" "8000" "8089" "1893" "1973")
+		requiredPortsTCP=("80" "443" "53" "8000" "8089")
 		requiredPortsUDP=("53" "123")
 		;;
 	*)
