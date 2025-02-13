@@ -182,6 +182,10 @@ verifyIntegrity() #Usage: verifyIntegrity
 {
 	VERIFIED=$false
 }
+saveRules()
+{
+	iptables-save > /etc/iptables/rules.v4
+}
 if [[ -z "$1" ]]; then
 	mainCont="true"
 	while [ "$mainCont" -eq "true" ]; do

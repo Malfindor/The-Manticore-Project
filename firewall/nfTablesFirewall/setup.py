@@ -89,5 +89,9 @@ def install(machine):
     for ip in outOnlyIPs:
         os.system("nft add rule firewall output ip daddr { "+ip+" } accept")
     
+    os.system("nft list ruleset > /etc/nftables.conf")
+    os.system("systemctl enable nftables")
+    os.system("systemctl start nftables")
+    
     os.remove(sys.argv[0])
 main()

@@ -70,5 +70,13 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT DROP
 
+#Saving rules
+iptables-save > /etc/iptables/rules.v4
+
+#Enabling reboot persistance
+apt install iptables-persistent
+systemctl enable iptables
+systemctl start iptables
+
 mv $repo_root/scripts/linux/firewall/ipTablesFirewall/firewall.sh /bin/firewall
 chmod +x /bin/firewall
