@@ -11,7 +11,7 @@ bash $repo_root/scripts/linux/Gemini/install.sh
 echo "Installing Manticore Listener"
 echo "NOT IMPLEMENTED" #when manticore is stable on old linux versions, execute the listener install
 echo "Installing Arbiter Log Forwarder"
-echo "NOT IMPLEMENTED" #when arbiter is functional, install the log forwarder
+bash $repo_root/scripts/linux/Arbiter/forwarderInstall.sh
 echo "Installing Inferno Firewall"
 bash $repo_root/scripts/linux/firewall/install.sh
 echo "Installing backdoor utility"
