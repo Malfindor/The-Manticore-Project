@@ -1,7 +1,7 @@
 #!/bin/bash
 processConfFile()
 {
-	mapfile -t confList < "/etc/manticore/listener.conf"
+	mapfile -t confList < "/etc/Arbiter/listener.conf"
 	for line in "${confList[@]}"; do
 		if ! [[ "${line:0:1}" == "#" ]]; then
 			IFS="=" read -ra lineSplit <<< "$line"
@@ -13,6 +13,7 @@ processConfFile()
 	done
 }
 while true; do
+	processConfFile
 	log=$(nc -l -p 18736)
 	echo "$log" >> /var/Arbiter/buffer.log
 done
