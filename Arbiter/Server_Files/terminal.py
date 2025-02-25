@@ -7,12 +7,11 @@ def main():
     while True:
         os.system("clear")
         readCont = getFileCont("/var/Arbiter/read.log")
-        if(len(readCont) != 0):
-            if(readCont != "\n"):
-                os.system('echo "' + readCont + '" >> /var/Arbiter/active.log')
-                os.system("mv /var/Arbiter/buffer.log /var/Arbiter/read.log")
-                os.system("touch /var/Arbiter/buffer.log")
-                os.system('echo "' + readCont + '" + >> /var/log/masterArbiter.log')
+        if(len(readCont) != 0 && readCont != "\n"):
+            os.system('echo "' + readCont + '" >> /var/Arbiter/active.log')
+            os.system("mv /var/Arbiter/buffer.log /var/Arbiter/read.log")
+            os.system("touch /var/Arbiter/buffer.log")
+            os.system('echo "' + readCont + '" + >> /var/log/masterArbiter.log')
         lastRefresh = datetime.datetime.today()
         logs = getFileCont("/var/Arbiter/active.log")
         logList = logs.split('\n')
