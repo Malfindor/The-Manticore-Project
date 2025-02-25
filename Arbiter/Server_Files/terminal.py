@@ -6,15 +6,15 @@ filters = []
 def main():
     while True:
         os.system("clear")
-        readCont = getFileCont("/etc/gemini/read.log")
+        readCont = getFileCont("/var/Arbiter/read.log")
         if(len(readCont) != 0):
             if(readCont != "\n"):
-                os.system('echo "' + readCont + '" >> /etc/gemini/active.log')
-                os.system("mv /etc/gemini/buffer.log /etc/gemini/read.log")
-                os.system("touch /etc/gemini/buffer.log")
-                os.system('echo "' + readCont + '" + >> /var/log/masterGemini.log')
+                os.system('echo "' + readCont + '" >> /var/Arbiter/active.log')
+                os.system("mv /var/Arbiter/buffer.log /var/Arbiter/read.log")
+                os.system("touch /var/Arbiter/buffer.log")
+                os.system('echo "' + readCont + '" + >> /var/log/masterArbiter.log')
         lastRefresh = datetime.datetime.today()
-        logs = getFileCont("/etc/gemini/active.log")
+        logs = getFileCont("/var/Arbiter/active.log")
         logList = logs.split('\n')
         print("Last refresh: " + str(lastRefresh))
         x = 0
@@ -49,7 +49,7 @@ def main():
                 else:
                     del(logList[acked-1])
                     newLogList = "\n".join(logList)
-                    os.system('echo "' + newLogList + '" > /etc/gemini/active.log')
+                    os.system('echo "' + newLogList + '" > /var/Arbiter/active.log')
         else:
             printHelp()
     

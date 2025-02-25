@@ -151,7 +151,7 @@ bash $repo_root/scripts/linux/Gemini/install.sh
 mv $repo_root/scripts/linux/Gemini/terminal.py /bin/gemini
 chmod +x /bin/gemini
 echo "Installing Arbiter SIM..."
-bash $repo_root/scripts/linux/Arbiter/install.sh
+bash $repo_root/scripts/linux/Arbiter/Server_Files/install.sh
 echo "Setting up firewall..."
 mv $repo_root/scripts/linux/nfTablesFirewall/firewall.py /bin/firewall
 chmod +x /bin/firewall
