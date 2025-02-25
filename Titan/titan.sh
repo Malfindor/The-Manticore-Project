@@ -36,7 +36,7 @@ processConfFile()
 					if ! [[ -z "${lineSplit[1]}" ]]; then
 						ADMIN_PATH="${lineSplit[1]}"
 					else
-						ADMIN_PATH="DEFAULT"
+						ADMIN_PATH="admin"
 					fi
 					;;
 				*)
@@ -59,8 +59,7 @@ tail -F $ACCESS_LOG | while read line; do
 
     #Admin panel access
 	IFS=" " read -ra lineSplit <<< "$line"
-	if [[ "$ADMIN_PATH" == "DEFAULT" ]]; then
-		if [[ "$line" == *"admin"* ]]; then
+		if [[ "$line" == *"$ADMIN_PATH"* ]]; then
 			isValid=$false
 			IP="${lineSplit[0]}"
 			for ip in "${ADMIN_IP[@]}"; do
@@ -87,35 +86,6 @@ tail -F $ACCESS_LOG | while read line; do
 				echo $log >> /var/log/gemini.log
 			fi
 		fi
-	else
-		if [[ "$line" == "$ADMIN_PATH"* ]]; then
-			isValid=$false
-			IP="${lineSplit[0]}"
-			for ip in "${ADMIN_IP[@]}"; do
-				if [[ "ip" == *"/"* ]]; then
-					IFS="/" read -ra ipSplit <<< "$ip"
-					netMask=((${ipSplit[1]}))
-					IFS="." read -ra ipProcessed <<< "$ip"
-					for entry in "${ipProcessed[@]}"; do
-						newIP="$newIP"+"$entry"
-					done
-					ipSubnet=${ip:0:$netMask}
-					if [[ "$IP" == "$ipSubnet"* ]]; then
-						isValid=$true
-					fi
-				else
-					if [[ "$IP" == "$ip" ]]; then
-						isValid=$true
-					fi
-				fi
-			done
-			if ! [[ $isValid ]]; then
-				current_time=$(date +"%H:%M:%S")
-				log="[ $current_time ] - Potential access of the admin panel from IP: $IP"
-				echo $log >> /var/log/gemini.log
-			fi
-		fi
-	fi
 	
 	#Suspicious file monitoring
 	findFiles "/var/www/"
