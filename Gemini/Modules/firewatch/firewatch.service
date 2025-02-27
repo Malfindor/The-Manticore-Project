@@ -1,11 +1,11 @@
 [Unit]
-Description=Gemini Module Controller Service
+Description=Gemini Firewatch Service for monitoring firewalls
 
 [Service]
 Type=simple
 Restart=on-failure
 Environment="PATH=/sbin:/bin:/usr/sbin:/usr/bin"
-ExecStart=/bin/bash -c '/etc/gemini/controller'
+ExecStart=/bin/bash -c '/etc/gemini/firewatch'
 StartLimitInterval=1s
 StartLimitBurst=999
 

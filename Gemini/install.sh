@@ -4,7 +4,15 @@ mkdir /etc/gemini
 mkdir /.quarantine
 mv "$repo_root/scripts/linux/Gemini/core.sh" /etc/gemini/core
 chmod +x /etc/gemini/core
+mv $repo_root/scripts/linux/Gemini/controller.sh /etc/gemini/controller
+chmod +x /etc/gemini/controller
+mv $repo_root/scripts/linux/Gemini/gemini-bin.sh /bin/gemini
+chmod +x /bin/gemini
+mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.sh / etc/gemini/firewatch
+chmod +x /etc/gemini/firewatch
+mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.service /etc/systemd/system/gemini-firewatch.service
 mv "$repo_root/scripts/linux/Gemini/gemini.service" /etc/systemd/system/gemini.service
+mv "$repo_root/scripts/linux/Gemini/core.service" /etc/systemd/system/gemini-core.service
 mv "$repo_root/scripts/linux/Gemini/gemini.conf" /etc/gemini/gemini.conf
 systemctl daemon-reload
 if [[ -d /var/www/ ]]; then
