@@ -8,7 +8,7 @@ mv $repo_root/scripts/linux/Gemini/controller.sh /etc/gemini/controller
 chmod +x /etc/gemini/controller
 mv $repo_root/scripts/linux/Gemini/gemini-bin.sh /bin/gemini
 chmod +x /bin/gemini
-mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.sh / etc/gemini/firewatch
+mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.sh /etc/gemini/firewatch
 chmod +x /etc/gemini/firewatch
 mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.service /etc/systemd/system/gemini-firewatch.service
 mv "$repo_root/scripts/linux/Gemini/gemini.service" /etc/systemd/system/gemini.service
