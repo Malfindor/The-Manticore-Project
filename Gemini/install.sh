@@ -2,6 +2,7 @@
 repo_root=$(git rev-parse --show-toplevel)
 mkdir /etc/gemini
 mkdir /.quarantine
+chmod 000 /.quarantine
 mv "$repo_root/scripts/linux/Gemini/core.sh" /etc/gemini/core
 chmod +x /etc/gemini/core
 mv $repo_root/scripts/linux/Gemini/controller.sh /etc/gemini/controller

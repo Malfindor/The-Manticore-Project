@@ -18,10 +18,11 @@ Arguments:
 verifyRunning()
 {
 	local module="$1"
-	isRunning=$false
-	systemctl is-active --quiet $module && service_running=$true || service_running=$false
-	if [[ $service_running ]]; then
-		isRunning=$true
+	local -n isRunning="is_Running"
+	if systemctl is-active --quiet "$module"; then
+		isRunning=true
+	else
+		isRunning=false
 	fi
 }
 module_list=("gemini-core" "gemini-firewatch")
@@ -37,7 +38,7 @@ if [[ "$1" -eq "start" ]]; then
 		systemctl start "$module"
 		sleep 1
 		verifyRunning "$module"
-		if [[ $isRunning ]]; then
+		if [[ "$is_Running" == "true" ]]; then
 			echo "$module status: \033[32;1m[RUNNING]\033[0m"
 		else
 			echo "$module status: \033[31;1m[FAILED TO START]\033[0m"
@@ -47,7 +48,7 @@ if [[ "$1" -eq "start" ]]; then
 	systemctl start gemini
 	sleep 1
 	verifyRunning "gemini"
-	if [[ $isRunning ]]; then
+	if [[ "$is_Running" == "true" ]]; then
 		echo "Controller status: \033[32;1m[RUNNING]\033[0m"
 	else
 		echo "Controller status: \033[31;1m[FAILED TO START]\033[0m"
@@ -60,7 +61,7 @@ if [[ "$1" -eq "stop" ]]; then
 	systemctl stop gemini
 	sleep 1
 	verifyRunning "gemini"
-	if ! [[ $isRunning ]]; then
+	if ! [[ "$is_Running" == "true" ]]; then
 		echo "Controller status: \033[32;1m[TERMINATED]\033[0m"
 	else
 		echo "Controller status: \033[31;1m[FAILED TO TERMINATE]\033[0m"
@@ -69,7 +70,7 @@ if [[ "$1" -eq "stop" ]]; then
 		systemctl stop "$module"
 		sleep 1
 		verifyRunning "$module"
-		if ! [[ $isRunning ]]; then
+		if ! [[ "$is_Running" == "true" ]]; then
 			echo "$module status: \033[32;1m[TERMINATED]\033[0m"
 		else
 			echo "$module status: \033[31;1m[FAILED TO TERMINATE]\033[0m"
