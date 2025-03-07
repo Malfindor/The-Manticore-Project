@@ -12,6 +12,8 @@ chmod +x /bin/gemini
 mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.sh /etc/gemini/firewatch
 chmod +x /etc/gemini/firewatch
 mv $repo_root/scripts/linux/Gemini/modules/firewatch/firewatch.service /etc/systemd/system/gemini-firewatch.service
+touch /etc/gemini/iptablesrules.bak
+iptables -L -v -n > /etc/gemini/iptablesrules.bak
 mv "$repo_root/scripts/linux/Gemini/gemini.service" /etc/systemd/system/gemini.service
 mv "$repo_root/scripts/linux/Gemini/core.service" /etc/systemd/system/gemini-core.service
 mv "$repo_root/scripts/linux/Gemini/gemini.conf" /etc/gemini/gemini.conf
