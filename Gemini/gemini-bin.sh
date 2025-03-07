@@ -30,7 +30,7 @@ if [[ -z $1 ]]; then
 	printHelp
 	exit
 fi
-if [[ "$1" -eq "start" ]]; then
+if [[ "$1" == "start" ]]; then
 	echo "Starting Gemini..."
 	echo "---------------------------------------------------------"
 	echo ""
@@ -52,9 +52,10 @@ if [[ "$1" -eq "start" ]]; then
 		echo "Controller status: \033[32;1m[RUNNING]\033[0m"
 	else
 		echo "Controller status: \033[31;1m[FAILED TO START]\033[0m"
+	fi
 	exit
 fi
-if [[ "$1" -eq "stop" ]]; then
+if [[ "$1" == "stop" ]]; then
 	echo "Stopping Gemini..."
 	echo "---------------------------------------------------------"
 	echo ""
@@ -65,6 +66,7 @@ if [[ "$1" -eq "stop" ]]; then
 		echo "Controller status: \033[32;1m[TERMINATED]\033[0m"
 	else
 		echo "Controller status: \033[31;1m[FAILED TO TERMINATE]\033[0m"
+	fi
 	echo ""
 	for module in "${module_list[@]}"; do
 		systemctl stop "$module"

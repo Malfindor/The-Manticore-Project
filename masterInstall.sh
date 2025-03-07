@@ -3,8 +3,8 @@
 
 #!/bin/bash
 echo "Installing dependencies"
-yum install -y nc iptables nft 
-apt install -y nc iptables nft
+yum install -y nc iptables nft inotify-tools
+apt install -y nc iptables nft inotify-tools
 repo_root=$(git rev-parse --show-toplevel)
 echo "Installing Gemini EDR"
 bash $repo_root/scripts/linux/Gemini/install.sh
