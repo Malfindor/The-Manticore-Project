@@ -148,15 +148,15 @@ EOFA
 #echo "Setting up Ubuntu listener..."
 echo "Installing Gemini EDR..."
 bash $repo_root/scripts/linux/Gemini/install.sh
-mv $repo_root/scripts/linux/Gemini/terminal.py /bin/gemini
+mv $repo_root/scripts/linux/Gemini/gemini-bin.sh /bin/gemini
 chmod +x /bin/gemini
 echo "Installing Arbiter SIM..."
 bash $repo_root/scripts/linux/Arbiter/Server_Files/install.sh
 echo "Setting up firewall..."
-mv $repo_root/scripts/linux/nfTablesFirewall/firewall.py /bin/firewall
+mv $repo_root/scripts/linux/firewall/nfTablesFirewall/firewall.py /bin/firewall
 chmod +x /bin/firewall
 echo "Defaults env_keep += \"SSH_CONNECTION SSH_CLIENT SSH_TTY\"" >> /etc/sudoers
-python3 $repo_root/scripts/linux/nfTablesFirewall/setup.py "splunk"
+python3 $repo_root/scripts/linux/firewall/nfTablesFirewall/setup.py "splunk"
 #echo "Beginning remote setup..."
 #manticore -i
 #manticore -gi
