@@ -40,7 +40,7 @@ if [[ "$1" == "start" ]]; then
 	echo "Starting Gemini..."
 	echo "---------------------------------------------------------"
 	echo ""
-	if [[ -f /etc/gemini/started.flag ]]; then
+	if ! [[ -f /etc/gemini/started.flag ]]; then
 		echo "First time startup detected, enabling all services to startup on system boot"
 		systemctl enable gemini
 		for module in "${module_list}"; do
