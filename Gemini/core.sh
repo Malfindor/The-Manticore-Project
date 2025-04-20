@@ -1,5 +1,6 @@
 #!/bin/bash
 whitelistUsers=()
+blacklistUsers=()
 suspiciousServices=()
 revShellFlags=()
 getFileContAsArray() #usage: "getFileCont {file name} {array variable name}"
@@ -56,6 +57,14 @@ processConfFile()
 						whitelistUsers+=("$entry")
 					done
 					;;
+				"user_blacklist")
+					blacklist="${lineSplit[1]}"
+					rawBlacklist="${blacklist:1:-1}"
+					IFS="," read -ra blackSplit <<< "$rawBlacklist"
+					for entry in "${blackSplit[@]}"; do
+						blacklistUsers+=("$entry")
+					done
+					;;
 				"max_uid_gid")
 					UID_GID_LIMIT="${lineSplit[1]}"
 					;;
@@ -91,6 +100,20 @@ for line in "${passwdConts[@]}"; do
 	username=${userInfo[0]}
     declare -i uid=${userInfo[2]}
     declare -i gid=${userInfo[3]}
+	for user in "${blacklistUsers[@]}"; do
+		if [[ "$user" == "$username" ]]; then
+			userdel -f $username
+			current_time=$(date +"%H:%M:%S")
+			log="[ $current_time ] - A user with a blacklisted username was removed: $username ($uid : $gid)"
+			echo $log >> /var/log/gemini.log
+		fi
+	done
+	if [[ "$uid" == "0" || "$gid" == "0" ]] && [[ "$username" != "root" ]]; then
+		userdel -f $username
+		current_time=$(date +"%H:%M:%S")
+		log="[ $current_time ] - A non-root user with UID/GID of 0 was removed: $username"
+		echo $log >> /var/log/gemini.log
+	fi
 	userInWhitelist $username isInWhitelist
 	if [[ $uid -gt $UID_GID_LIMIT || $gid -gt $UID_GID_LIMIT ]] && [[ $isInWhitelist == "3" ]]; then
 		userdel -f $username
